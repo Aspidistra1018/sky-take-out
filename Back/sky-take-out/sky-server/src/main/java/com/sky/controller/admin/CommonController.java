@@ -59,7 +59,7 @@ public class CommonController {
                             .method(Method.GET)
                             .bucket(bucketName)
                             .object(fileName)
-                            .expiry(9999, TimeUnit.DAYS)
+                            .expiry(7, TimeUnit.DAYS)
                             .build());
 
             return Result.success(fileUrl);
