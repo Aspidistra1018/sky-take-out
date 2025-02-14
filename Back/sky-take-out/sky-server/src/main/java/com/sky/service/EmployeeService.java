@@ -22,7 +22,7 @@ public interface EmployeeService {
     void save(EmployeeDTO employeeDTO);
 
     /**
-     * 分页插叙
+     * 分页查询
      * @param employeePageQueryDTO
      * @return
      */

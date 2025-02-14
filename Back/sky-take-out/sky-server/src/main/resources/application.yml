@@ -40,6 +40,6 @@ sky:
 
 minio:
   endpoint: http://localhost:9000  # MinIO服务器地址
-  accessKey: xUqFSBOC7Xiqtwsb76sI      # MinIO访问密钥
+  accessKey: xUqFSBOC7Xiqtwsb76sI     # MinIO访问密钥
   secretKey: x4maeGdW5N5VQCPS27yeUaqEX3hbj0pl5d569VsO       # MinIO秘密密钥
   bucket: sky-take-out        # MinIO存储桶名称

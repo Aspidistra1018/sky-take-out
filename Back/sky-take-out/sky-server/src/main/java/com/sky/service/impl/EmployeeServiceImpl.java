@@ -96,6 +96,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.insert(employee);
     }
 
+    /**
+     * 分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         //开始分页
@@ -109,6 +114,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new PageResult(total,records);
     }
 
+    /**
+     * 启用与禁用
+     * @param status
+     * @param id
+     */
     @Override
     public void startOrstop(Integer status, Long id) {
         //update employee set status = ? where id = ?
