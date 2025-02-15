@@ -12,6 +12,11 @@ spring:
       url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
+  redis:
+    host: ${sky.redis.host}
+    port: ${sky.redis.port}
+    password: ${sky.redis.password}
+    database: ${sky.redis.database}
 
 mybatis:
   #mapper配置文件
@@ -43,3 +48,4 @@ minio:
   accessKey: xUqFSBOC7Xiqtwsb76sI     # MinIO访问密钥
   secretKey: x4maeGdW5N5VQCPS27yeUaqEX3hbj0pl5d569VsO       # MinIO秘密密钥
   bucket: sky-take-out        # MinIO存储桶名称
+

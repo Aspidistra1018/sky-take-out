@@ -18,10 +18,11 @@ public interface SetmealDishMapper {
     List<Long> getSetmealIdsByDishIds(List<Long> dishIds);
 
     /**
-     * 添加套餐表中菜品
+     * 批量保存套餐和菜品的关联关系
      * @param setmealDishes
      */
-    void saveSetmealDishes(List<SetmealDish> setmealDishes);
+    void insertBatch(List<SetmealDish> setmealDishes);
+
 
     /**
      * 根据套餐id删除套餐和菜品的关联关系
@@ -37,12 +38,4 @@ public interface SetmealDishMapper {
      */
     @Select("select * from setmeal_dish where setmeal_id = #{setmealId}")
     List<SetmealDish> getBySetmealId(Long setmealId);
-
-    /**
-     * 批量保存套餐和菜品的关联关系
-     * @param setmealDishes
-     */
-    void insertBatch(List<SetmealDish> setmealDishes);
-
-
 }
