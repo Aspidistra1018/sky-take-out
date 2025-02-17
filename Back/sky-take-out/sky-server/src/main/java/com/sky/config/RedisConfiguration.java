@@ -30,7 +30,7 @@ public class RedisConfiguration {
         objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
 
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer)   ;
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }

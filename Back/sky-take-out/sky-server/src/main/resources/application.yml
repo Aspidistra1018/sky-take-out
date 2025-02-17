@@ -43,9 +43,20 @@ sky:
     # 设置前端传递过来的令牌名称
     admin-token-name: token
 
+    # 设置jwt签名加密时使用的秘钥
+    user-secret-key: itheima
+    # 设置jwt过期时间
+    user-ttl: 720000000
+    # 设置前端传递过来的令牌名称
+    user-token-name: authentication
+
 minio:
   endpoint: http://localhost:9000  # MinIO服务器地址
   accessKey: xUqFSBOC7Xiqtwsb76sI     # MinIO访问密钥
   secretKey: x4maeGdW5N5VQCPS27yeUaqEX3hbj0pl5d569VsO       # MinIO秘密密钥
   bucket: sky-take-out        # MinIO存储桶名称
+
+wechat:
+  appid: ${sky.wechat.appid}
+  secret: ${sky.wechat.secret}
 
