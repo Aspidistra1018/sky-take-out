@@ -223,13 +223,13 @@ var _api = __webpack_require__(/*! @/pages/api/api.js */ 24);function ownKeys(ob
 
         (0, _api.paymentOrder)(params).then(function (res) {
           if (res.code === 1) {
-            wx.requestPayment({
-              nonceStr: res.data.nonceStr,
-              package: res.data.packageStr,
-              paySign: res.data.paySign,
-              timeStamp: res.data.timeStamp,
-              signType: res.data.signType,
-              success:function(res){
+            // wx.requestPayment({
+            //   nonceStr: res.data.nonceStr,
+            //   package: res.data.packageStr,
+            //   paySign: res.data.paySign,
+            //   timeStamp: res.data.timeStamp,
+            //   signType: res.data.signType,
+            //   success:function(res){
                 wx.showModal({
                   title: '提示',
                   content: '支付成功',
@@ -238,8 +238,8 @@ var _api = __webpack_require__(/*! @/pages/api/api.js */ 24);function ownKeys(ob
                   }
                 })
                 console.log('支付成功!')
-              }
-            })
+            //   }
+            // })
 
 
             //uni.redirectTo({url: '/pages/success/index?orderId=' + _this.orderId });
