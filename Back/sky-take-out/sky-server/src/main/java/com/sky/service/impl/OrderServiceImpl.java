@@ -1,7 +1,10 @@
 package com.sky.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersSubmitDTO;
 import com.sky.entity.AddressBook;
 import com.sky.entity.OrderDetail;
@@ -13,8 +16,10 @@ import com.sky.mapper.AddressBookMapper;
 import com.sky.mapper.OrderDetailMapper;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.ShoppingCartMapper;
+import com.sky.result.PageResult;
 import com.sky.service.OrderService;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.vo.OrderVO;
 import okhttp3.Address;
 import org.simpleframework.xml.Order;
 import org.springframework.beans.BeanUtils;
@@ -43,6 +48,9 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 用户下单
+     * 1.从购物车和地址簿中获得订单数据和订单明细数据
+     * 2.向数据库对应的表中插入订单数据和订单明细数据
+     * 3.购物车表中对应的用户购物车数据进行清除，以防下一次查到两个购物车，但是购物车每次下单只有一个
      *
      * @param ordersSubmitDTO
      * @return
@@ -67,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
         }
         //向订单表中插入1条数据
         Orders orders = new Orders();
-        BeanUtils.copyProperties(ordersSubmitDTO,orders);
+        BeanUtils.copyProperties(ordersSubmitDTO, orders);
         orders.setOrderTime(LocalDateTime.now());
         orders.setPayStatus(Orders.UN_PAID);
         orders.setStatus(Orders.PENDING_PAYMENT);
@@ -75,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
         orders.setPhone(addressBook.getPhone());
         orders.setConsignee(addressBook.getConsignee());
         orders.setUserId(userId);
-         orderMapper.insert(orders);
+        orderMapper.insert(orders);
 
         List<OrderDetail> orderDetailList = new ArrayList<>();
         //向订单明细表插入n条数据
@@ -97,4 +105,43 @@ public class OrderServiceImpl implements OrderService {
                 .build();
         return orderSubmitVO;
     }
+
+    /**
+     * 历史订单查询
+     *
+     * @return
+     */
+    @Override
+    public PageResult pageQuery4User(OrdersPageQueryDTO ordersPageQueryDTO) {
+
+        //填充用户id
+        ordersPageQueryDTO.setUserId(BaseContext.getCurrentId());
+
+        //设置分页
+        PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
+
+        //分页条件查询
+        Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
+
+        List<OrderVO> records = new ArrayList<>();
+
+        //查询订单明细，并封装入OrderVO进行响应
+        if (page != null && !page.isEmpty()) {
+            for (Orders order : page) {
+                Long orderId = order.getId(); //订单id
+
+                //查询订单明细
+                List<OrderDetail> orderDetails = orderDetailMapper.getByOrderId(orderId);
+
+                //封装入OrderVO
+                OrderVO orderVO = new OrderVO();
+                BeanUtils.copyProperties(order, orderVO);
+                orderVO.setOrderDetailList(orderDetails);
+
+                records.add(orderVO);
+            }
+        }
+        return new PageResult(page.getTotal(), records);
+    }
+
 }
